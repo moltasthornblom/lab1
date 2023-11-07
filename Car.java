@@ -1,16 +1,22 @@
 import java.awt.*;
+import java.util.ArrayList;
 
-public class Car {
+public abstract class Car implements Movable{
 
-    public int nrDoors; // Number of doors on the car
+    protected int nrDoors; // Number of doors on the car
 
-    public double enginePower; // Engine power of the car
+    protected double enginePower; // Engine power of the car
 
-    public double currentSpeed; // The current speed of the car
+    protected double currentSpeed; // The current speed of the car
 
-    public Color color; // Color of the car
+    protected Color color; // Color of the car
 
-    public String modelName; // The car model name
+    protected String modelName; // The car model name
+
+    protected double direction = 0;
+
+    protected double positionX = 0;
+    protected double positionY = 0;
 
     public Car(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
@@ -18,6 +24,20 @@ public class Car {
         this.enginePower = enginePower;
         this.modelName = modelName;
         stopEngine();
+    }
+
+    public void move() {
+        positionX += currentSpeed * Math.cos(direction);
+        positionY += currentSpeed * Math.sin(direction);
+    }
+
+    public void turnLeft() {
+        direction += 10;
+
+    }
+    public void turnRight() {
+        direction -= 10;
+
     }
 
     public int getNrDoors(){
