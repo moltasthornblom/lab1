@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 
 public abstract class Car implements Movable{
 
@@ -17,7 +16,7 @@ public abstract class Car implements Movable{
 
     protected double positionX = 0;
     protected double positionY = 0;
-
+    private final double tenDegreesInRadians = (2 * Math.PI)/36;
     public Car(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
         this.color = color;
@@ -32,12 +31,29 @@ public abstract class Car implements Movable{
     }
 
     public void turnLeft() {
-        direction += 10;
+        direction += tenDegreesInRadians;
 
     }
     public void turnRight() {
-        direction -= 10;
+        direction -= tenDegreesInRadians;
 
+    }
+
+    public double getPositionX() {
+        return positionX;
+    }
+
+    public double getPositionY() {
+        return positionY;
+    }
+
+    protected abstract double speedFactor();
+    protected void incrementSpeed(double amount){
+        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
+    }
+
+    protected void decrementSpeed(double amount){
+        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
     public int getNrDoors(){
@@ -67,6 +83,23 @@ public abstract class Car implements Movable{
         currentSpeed = 0;
     }
 
+    public void gas(double amount) {
+        if (amount <= 1 && amount >= 0 ){
+            incrementSpeed(amount);
+        }
+        else {
+            System.out.print("Gas amount not within range [0,1]");
+        }
 
+    }
+
+    public void brake(double amount){
+        if (amount <= 1 && amount >= 0 ){
+            decrementSpeed(amount);
+        }
+        else {
+            System.out.print("Brake amount not within range [0,1]");
+        }
+    }
 
 }

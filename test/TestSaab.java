@@ -1,10 +1,10 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestVolvo {
+public class TestSaab {
     @Test
     public void testGas () {
-        Volvo240 bil = new Volvo240();
+        Saab95 bil = new Saab95();
         bil.startEngine();
         double speed = bil.getCurrentSpeed();
         bil.gas(1);
@@ -15,7 +15,7 @@ public class TestVolvo {
 
     @Test
     public void testBrake () {
-        Volvo240 bil = new Volvo240();
+        Saab95 bil = new Saab95();
         bil.startEngine();
         bil.gas(1);
         double speed = bil.getCurrentSpeed();
@@ -24,4 +24,20 @@ public class TestVolvo {
         bil.stopEngine();
         Assert.assertTrue(speedAfterBrake < speed);
     }
-}
+
+    @Test
+    public void testTurbo () {
+        Saab95 bil = new Saab95();
+        bil.startEngine();
+        double speed = bil.getCurrentSpeed();
+        bil.gas(1);
+        double speedAfterGas = bil.getCurrentSpeed();
+        bil.setTurboOn();
+        bil.gas(1);
+        bil.setTurboOff();
+        double speedAfterTurbo = bil.getCurrentSpeed();
+        bil.stopEngine();
+        Assert.assertTrue((speedAfterGas-speed)<(speedAfterTurbo-speedAfterGas));
+
+    }
+    }
