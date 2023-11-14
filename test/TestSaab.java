@@ -16,6 +16,7 @@ public class TestSaab {
     @Test
     public void testBrake () {
         Saab95 bil = new Saab95();
+        
         bil.startEngine();
         bil.gas(1);
         double speed = bil.getCurrentSpeed();

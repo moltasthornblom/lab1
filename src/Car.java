@@ -13,8 +13,8 @@ public abstract class Car implements Movable{
 
     protected double direction = 0;
 
-    protected double positionX = 0;
-    protected double positionY = 0;
+    private double positionX = 0;
+    private double positionY = 0;
     private final double tenDegreesInRadians = (2 * Math.PI)/36;
     public Car(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
@@ -38,12 +38,24 @@ public abstract class Car implements Movable{
 
     }
 
+    protected double getDirection() {
+        return direction;
+    }
+
     public double getPositionX() {
         return positionX;
     }
 
     public double getPositionY() {
         return positionY;
+    }
+
+    protected void setPositionX(double positionX) {
+        this.positionX = positionX;
+    }
+
+    protected void setPositionY(double positionY) {
+        this.positionY = positionY;
     }
 
     protected abstract double speedFactor();

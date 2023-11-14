@@ -1,8 +1,6 @@
 import java.awt.*;
 
-public class Scania extends Car{
-
-    private final static double loadFactor = 0.2;
+public class Scania extends Truck{
 
     private double flatBedAngle = 0;
 
@@ -26,10 +24,6 @@ public class Scania extends Car{
     }
     public double getFlatBedAngle() {
         return flatBedAngle;
-    }
-
-    protected double speedFactor(){
-        return enginePower * 0.01 * loadFactor;
     }
 
 }
