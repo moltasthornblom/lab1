@@ -8,7 +8,9 @@ import org.junit.runners.Suite;
         TestCar.class,
         TestSaab.class,
         TestVolvo.class,
-        TestScania.class
+        TestScania.class,
+        TestCarTransport.class,
+        TestMechanic.class
 })
 public class TestSuite {
 }

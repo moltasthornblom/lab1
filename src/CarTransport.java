@@ -19,8 +19,13 @@ public class CarTransport extends Truck{
         }
     }
 
-    public void toggleFlatBed() {
-        flatBedDown = !flatBedDown;
+    public void setFlatBedDown() {
+        if(currentSpeed == 0)
+            flatBedDown = true;
+    }
+    public void setFlatBedUp() {
+        if(currentSpeed == 0)
+            flatBedDown = false;
     }
 
     @Override
@@ -33,14 +38,16 @@ public class CarTransport extends Truck{
     }
     public void loadCar(PassengerCar car) {
         //Check if car close
-        double carX = car.getPositionX();
-        double carY = car.getPositionY();
+        if(flatBedDown) {
+            double carX = car.getPositionX();
+            double carY = car.getPositionY();
 
-        if(Math.abs(carX - this.getPositionX()) < 5 && Math.abs(carY - this.getPositionY()) < 5) {
-            if(loadedCars.size() <= maxCapacity) {
-                car.setPositionX(this.getPositionX());
-                car.setPositionY(this.getPositionY());
-                loadedCars.add(car);
+            if(Math.abs(carX - this.getPositionX()) < 5 && Math.abs(carY - this.getPositionY()) < 5) {
+                if(loadedCars.size() <= maxCapacity) {
+                    car.setPositionX(this.getPositionX());
+                    car.setPositionY(this.getPositionY());
+                    loadedCars.add(car);
+                }
             }
         }
     }
@@ -61,8 +68,9 @@ public class CarTransport extends Truck{
             carToBeUnloaded.setPositionY(newY);
 
         }
+    }
 
-
-
+    public ArrayList<PassengerCar> getLoadedCars() {
+        return loadedCars;
     }
 }
