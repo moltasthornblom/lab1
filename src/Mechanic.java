@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class Mechanic<T> {
+public class Mechanic<T extends Car> {
 
     private final Map<Integer, T> carsInService = new HashMap<>();
 
