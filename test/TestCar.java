@@ -40,7 +40,7 @@ public class TestCar {
         double posYAfterTurn = bil.getPositionY();
         bil.stopEngine();
 
-        Assert.assertTrue((posXAfterTurn > posX) && (posYAfterTurn > posY));
+        Assert.assertTrue((posXAfterTurn > posX) && (posYAfterTurn < posY));
 
     }
     @Test
@@ -55,7 +55,7 @@ public class TestCar {
         double posXAfterTurn = bil.getPositionX();
         double posYAfterTurn = bil.getPositionY();
         bil.stopEngine();
-        Assert.assertTrue((posXAfterTurn > posX) && (posYAfterTurn < posY));
+        Assert.assertTrue((posXAfterTurn > posX) && (posYAfterTurn > posY));
 
     }
     @Test

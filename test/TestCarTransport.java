@@ -79,7 +79,7 @@ public class TestCarTransport {
 //        System.out.println(carPosX);
 //        System.out.println(carPosY);
 
-        Assert.assertTrue(transport.getPositionX() > carPosX && transport.getPositionY() < carPosY);
+        Assert.assertTrue(transport.getPositionX() > carPosX && transport.getPositionY() > carPosY);
     }
 
 }

@@ -29,6 +29,10 @@ public abstract class Car implements Movable{
         positionY += currentSpeed * Math.sin(direction);
     }
 
+    public void turnAround() {
+        direction += Math.PI;
+    }
+
     public void turnLeft() {
         direction -= tenDegreesInRadians;
 

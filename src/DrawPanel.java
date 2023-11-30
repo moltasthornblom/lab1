@@ -24,13 +24,6 @@ public class DrawPanel extends JPanel{
     Point volvoPoint = new Point();
     double direction = 0;
 
-    // TODO: Make this genereal for all cars
-
-
-    void turnit(double degrees) {
-        direction = degrees;
-    }
-
     // Initializes the panel and reads the images
     public DrawPanel(int x, int y, CarController cc) {
         this.setDoubleBuffered(true);
@@ -48,8 +41,9 @@ public class DrawPanel extends JPanel{
             imageMap.put("CarTransport", ImageIO.read(DrawPanel.class.getResourceAsStream("pics/carTransport.png")));
 
             bgImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/bilmatta.png"));
-            this.setPreferredSize(new Dimension(500, 500));
-            this.setBackground(Color.green);
+
+            this.setPreferredSize(new Dimension(x, y));
+            //this.setBackground(Color.green);
         } catch (IOException ex)
         {
             ex.printStackTrace();
@@ -58,15 +52,32 @@ public class DrawPanel extends JPanel{
     }
 
     // This method is called each time the panel updates/refreshes/repaints itself
-    // TODO: Change to suit your needs.
+
+    private boolean triggerMapBounds(double carPosX, double carPosY) {
+        return carPosX > 750 || carPosX < 0 || carPosY > 490 || carPosY < 0;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(bgImage, 0, 0,2000 ,800 ,null);
+        g.drawImage(bgImage, 0, 0, 800, 560, null);
 
         for(Car car: cc.getCars()) {
+            System.out.println(car.getCurrentSpeed());
+            //System.out.println(car.getPositionX());
+            if(triggerMapBounds(car.getPositionX(), car.getPositionY())) {
+                while(car.getCurrentSpeed() > 0) {
+                    car.brake(1);
+                }
+                car.turnAround();
+                if (car.getCurrentSpeed() <= 0.1) {
+                    car.gas(0.1);
+                    car.move();
+                }
+            }
+
             BufferedImage img = imageMap.get(car.getModelName());
-            double rotationRequired = direction;
+            double rotationRequired = car.getDirection();
             double locationX = img.getWidth() / 2;
             double locationY = img.getHeight() / 2;
             AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
