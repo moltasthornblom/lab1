@@ -15,7 +15,7 @@ public abstract class Car implements Movable{
 
     private double positionX = 0;
     private double positionY = 0;
-    private final double tenDegreesInRadians = (2 * Math.PI)/36;
+    private final double tenDegreesInRadians = (2 * Math.PI)/(36);
     public Car(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
         this.color = color;
@@ -30,11 +30,11 @@ public abstract class Car implements Movable{
     }
 
     public void turnLeft() {
-        direction += tenDegreesInRadians;
+        direction -= tenDegreesInRadians;
 
     }
     public void turnRight() {
-        direction -= tenDegreesInRadians;
+        direction += tenDegreesInRadians;
 
     }
 
@@ -48,6 +48,10 @@ public abstract class Car implements Movable{
 
     public double getPositionY() {
         return positionY;
+    }
+
+    public String getModelName() {
+        return modelName;
     }
 
     protected void setPositionX(double positionX) {
