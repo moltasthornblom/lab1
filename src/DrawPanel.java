@@ -12,7 +12,7 @@ import javax.swing.*;
 // This panel represent the animated part of the view with the car images.
 
 public class DrawPanel extends JPanel{
-    Map<String, BufferedImage> imageMap = new HashMap<String, BufferedImage>();
+    Map<String, BufferedImage> imageMap = new HashMap<>();
     BufferedImage bgImage;
 
     CarController cc;
@@ -71,8 +71,8 @@ public class DrawPanel extends JPanel{
             }
 
             double rotationRequired = car.getDirection();
-            double locationX = img.getWidth() / 2;
-            double locationY = img.getHeight() / 2;
+            double locationX = img.getWidth() / 2.0;
+            double locationY = img.getHeight() / 2.0;
             AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
