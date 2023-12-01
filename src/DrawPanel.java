@@ -12,17 +12,10 @@ import javax.swing.*;
 // This panel represent the animated part of the view with the car images.
 
 public class DrawPanel extends JPanel{
-
-
-    // Just a single image, TODO: Generalize
     Map<String, BufferedImage> imageMap = new HashMap<String, BufferedImage>();
     BufferedImage bgImage;
 
     CarController cc;
-
-    // To keep track of a singel cars position
-    Point volvoPoint = new Point();
-    double direction = 0;
 
     // Initializes the panel and reads the images
     public DrawPanel(int x, int y, CarController cc) {
@@ -43,40 +36,40 @@ public class DrawPanel extends JPanel{
             bgImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/bilmatta.png"));
 
             this.setPreferredSize(new Dimension(x, y));
-            //this.setBackground(Color.green);
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
 
     }
 
-    // This method is called each time the panel updates/refreshes/repaints itself
-
-    private boolean triggerMapBounds(double carPosX, double carPosY) {
-        return carPosX > 750 || carPosX < 0 || carPosY > 490 || carPosY < 0;
+    private boolean triggerMapBounds(double carPosX, double carPosY, int carWidth) {
+        return carPosX > 800 - carWidth || carPosX < 0 || carPosY > 560 - carWidth || carPosY < 0;
     }
 
+    private void safeBoundsRescue(Car car, int carWidth) {
+        while (triggerMapBounds(car.getPositionX(), car.getPositionY(), carWidth)) {
+            car.move();
+        }
+    }
+
+    // This method is called each time the panel updates/refreshes/repaints itself
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, 800, 560, null);
 
         for(Car car: cc.getCars()) {
-            System.out.println(car.getCurrentSpeed());
-            //System.out.println(car.getPositionX());
-            if(triggerMapBounds(car.getPositionX(), car.getPositionY())) {
+            BufferedImage img = imageMap.get(car.getModelName());
+
+            if(triggerMapBounds(car.getPositionX(), car.getPositionY(), img.getWidth())) {
                 while(car.getCurrentSpeed() > 0) {
                     car.brake(1);
                 }
                 car.turnAround();
-                if (car.getCurrentSpeed() <= 0.1) {
-                    car.gas(0.1);
-                    car.move();
-                }
+                car.gas(0.1);
+                safeBoundsRescue(car, img.getWidth());
             }
 
-            BufferedImage img = imageMap.get(car.getModelName());
             double rotationRequired = car.getDirection();
             double locationX = img.getWidth() / 2;
             double locationY = img.getHeight() / 2;
