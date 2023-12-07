@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Car implements Movable{
 
@@ -16,6 +17,8 @@ public abstract class Car implements Movable{
     private double positionX = 0;
     private double positionY = 0;
     private final double tenDegreesInRadians = (2 * Math.PI)/(36);
+    private final ArrayList<CarObserver> observers = new ArrayList<>();
+
     public Car(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
         this.color = color;
@@ -24,9 +27,23 @@ public abstract class Car implements Movable{
         stopEngine();
     }
 
+    public void addObserver(CarObserver observer) {
+        observers.add(observer);
+    }
+
+    private void notifyCarMove() {
+        for (CarObserver observer: observers) {
+            observer.onCarMove();
+        }
+    }
+
     public void move() {
         positionX += currentSpeed * Math.cos(direction);
         positionY += currentSpeed * Math.sin(direction);
+
+        if(currentSpeed > 0) {
+            notifyCarMove();
+        }
     }
 
     public void turnAround() {

@@ -13,7 +13,7 @@ import java.security.Key;
  * TODO: Write more actionListeners and wire the rest of the buttons
  **/
 
-public class CarView extends JFrame{
+public class CarView extends JFrame implements CarObserver{
     private static final int X = 800;
     private static final int Y = 800;
     private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -52,6 +52,7 @@ public class CarView extends JFrame{
     public CarView(String framename, CarController cc){
         this.carC = cc;
         drawPanel =  new DrawPanel(X, Y-240);
+        drawPanel.draw(carC.getCars());
         initComponents(framename);
         obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
         obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
@@ -62,6 +63,11 @@ public class CarView extends JFrame{
         obj1.getActionMap().put(GAS, new MoveAction(GAS));
         obj1.getActionMap().put( BRAKE, new MoveAction(BRAKE));
         add(obj1);
+    }
+
+    @Override
+    public void onCarMove() {
+        drawPanel.draw(carC.getCars());
     }
 
     private class MoveAction extends AbstractAction {

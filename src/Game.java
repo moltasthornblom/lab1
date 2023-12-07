@@ -15,9 +15,7 @@ public class Game {
             ArrayList<Car> cars = CarC.getCars();
             for (Car car : cars) {
                 car.move();
-                // repaint() calls the paintComponent method of the panel
             }
-            frame.drawPanel.draw(cars);
 
         }
     }
@@ -32,6 +30,9 @@ public class Game {
         CarC.cars.add(saab);
         CarC.cars.add(carTransport);
         frame = new CarView("CarSim 1.0", CarC);
+        for (Car car: CarC.getCars()) {
+            car.addObserver(frame);
+        }
         timer.start();
     }
     public static void main(String[] args) {
