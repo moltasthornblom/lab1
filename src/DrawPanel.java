@@ -11,10 +11,9 @@ import javax.swing.*;
 
 // This panel represent the animated part of the view with the car images.
 
-public class DrawPanel extends JPanel{
+public class DrawPanel extends JPanel implements CarObserver {
     Map<String, BufferedImage> imageMap = new HashMap<>();
     BufferedImage bgImage;
-    ArrayList<Car> cars = new ArrayList<>();
 
     // Initializes the panel and reads the images
     public DrawPanel(int x, int y) {
@@ -49,17 +48,13 @@ public class DrawPanel extends JPanel{
             car.move();
         }
     }
-    public void draw(ArrayList<Car> cars) {
-        this.cars = cars;
-        super.repaint();
-    }
     // This method is called each time the panel updates/refreshes/repaints itself
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, 800, 560, null);
 
-        for(Car car: cars) {
+        for(Car car: Car.cars) {
             BufferedImage img = imageMap.get(car.getModelName());
 
             if(triggerMapBounds(car.getPositionX(), car.getPositionY(), img.getWidth())) {
@@ -80,5 +75,20 @@ public class DrawPanel extends JPanel{
             g.drawImage(op.filter(img, null), (int) car.getPositionX(),(int) car.getPositionY(),null); // see javadoc for more info on the parameters
         }
 
+    }
+
+    @Override
+    public void onCarMove() {
+        this.repaint();
+    }
+
+    @Override
+    public void onCarCreate() {
+        this.repaint();
+    }
+
+    @Override
+    public void onCarRemove() {
+        this.repaint();
     }
 }

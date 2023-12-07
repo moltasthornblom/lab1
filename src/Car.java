@@ -1,4 +1,7 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public abstract class Car implements Movable{
@@ -14,26 +17,44 @@ public abstract class Car implements Movable{
 
     protected double direction = 0;
 
+    public static final ArrayList<Car> cars = new ArrayList<>();
     private double positionX = 0;
     private double positionY = 0;
     private final double tenDegreesInRadians = (2 * Math.PI)/(36);
-    private final ArrayList<CarObserver> observers = new ArrayList<>();
+    private final static ArrayList<CarObserver> observers = new ArrayList<>();
 
     public Car(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
         this.color = color;
         this.enginePower = enginePower;
         this.modelName = modelName;
+        cars.add(this);
+        notifyCarCreate();
         stopEngine();
     }
 
-    public void addObserver(CarObserver observer) {
+    public static void addObserver(CarObserver observer) {
         observers.add(observer);
     }
-
+    public static void removeCar() {
+        if(!cars.isEmpty()) {
+            cars.remove(0);
+            notifyRemove();
+        }
+    }
     private void notifyCarMove() {
         for (CarObserver observer: observers) {
             observer.onCarMove();
+        }
+    }
+    private void notifyCarCreate() {
+        for (CarObserver observer: observers) {
+            observer.onCarCreate();
+        }
+    }
+    private static void notifyRemove() {
+        for (CarObserver observer: observers) {
+            observer.onCarRemove();
         }
     }
 

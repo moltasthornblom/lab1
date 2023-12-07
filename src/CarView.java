@@ -13,9 +13,9 @@ import java.security.Key;
  * TODO: Write more actionListeners and wire the rest of the buttons
  **/
 
-public class CarView extends JFrame implements CarObserver{
-    private static final int X = 800;
-    private static final int Y = 800;
+public class CarView extends JFrame{
+    private static int X;
+    private static int Y;
     private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
     private static final String GAS = "gas";
     private static final String BRAKE = "brake";
@@ -48,12 +48,14 @@ public class CarView extends JFrame implements CarObserver{
     JButton startButton = new JButton("Start all cars");
     JButton stopButton = new JButton("Stop all cars");
 
+    JButton addCarButton = new JButton("Add car button");
+    JButton removeCarButton = new JButton("Remove car button");
     // Constructor
-    public CarView(String framename, CarController cc){
+    public CarView(String framename, CarController cc, JPanel drawPanel, int X, int Y){
+        this.X = X;
+        this.Y = Y;
         this.carC = cc;
-        drawPanel =  new DrawPanel(X, Y-240);
-        drawPanel.draw(carC.getCars());
-        initComponents(framename);
+        initComponents(framename, drawPanel);
         obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
         obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
         obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("UP"), GAS);
@@ -65,10 +67,7 @@ public class CarView extends JFrame implements CarObserver{
         add(obj1);
     }
 
-    @Override
-    public void onCarMove() {
-        drawPanel.draw(carC.getCars());
-    }
+
 
     private class MoveAction extends AbstractAction {
 
@@ -97,7 +96,7 @@ public class CarView extends JFrame implements CarObserver{
         }
     }
     // Sets everything in place and fits everything
-    private void initComponents(String title) {
+    private void initComponents(String title, JPanel drawPanel) {
 
         this.setTitle(title);
         this.setPreferredSize(new Dimension(X,Y));
@@ -133,6 +132,8 @@ public class CarView extends JFrame implements CarObserver{
         controlPanel.add(lowerBedButton, 5);
         controlPanel.add(turnLeftButton, 6);
         controlPanel.add(turnRightButton, 7);
+        controlPanel.add(addCarButton, 8);
+        controlPanel.add(removeCarButton, 9);
         controlPanel.setPreferredSize(new Dimension((X/2)+4, 200));
         this.add(controlPanel);
         controlPanel.setBackground(Color.CYAN);
@@ -216,6 +217,19 @@ public class CarView extends JFrame implements CarObserver{
             @Override
             public void actionPerformed(ActionEvent e) {
                 carC.stopEngine();
+            }
+        });
+        addCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carC.addCar();
+            }
+        });
+
+        removeCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carC.removeCar();
             }
         });
 
