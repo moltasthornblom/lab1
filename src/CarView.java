@@ -51,7 +51,7 @@ public class CarView extends JFrame{
     // Constructor
     public CarView(String framename, CarController cc){
         this.carC = cc;
-        drawPanel =  new DrawPanel(X, Y-240, carC);
+        drawPanel =  new DrawPanel(X, Y-240);
         initComponents(framename);
         obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
         obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
