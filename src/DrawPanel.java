@@ -3,6 +3,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -13,13 +14,11 @@ import javax.swing.*;
 public class DrawPanel extends JPanel{
     Map<String, BufferedImage> imageMap = new HashMap<>();
     BufferedImage bgImage;
-
-    CarController cc;
+    ArrayList<Car> cars = new ArrayList<>();
 
     // Initializes the panel and reads the images
-    public DrawPanel(int x, int y, CarController cc) {
+    public DrawPanel(int x, int y) {
         this.setDoubleBuffered(true);
-        this.cc = cc;
         // Print an error message in case file is not found with a try/catch block
         try {
             // You can remove the "pics" part if running outside of IntelliJ and
@@ -50,14 +49,17 @@ public class DrawPanel extends JPanel{
             car.move();
         }
     }
-
+    public void draw(ArrayList<Car> cars) {
+        this.cars = cars;
+        super.repaint();
+    }
     // This method is called each time the panel updates/refreshes/repaints itself
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, 800, 560, null);
 
-        for(Car car: cc.getCars()) {
+        for(Car car: cars) {
             BufferedImage img = imageMap.get(car.getModelName());
 
             if(triggerMapBounds(car.getPositionX(), car.getPositionY(), img.getWidth())) {
