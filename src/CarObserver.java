@@ -4,5 +4,4 @@ public interface CarObserver {
     void onCarCreate();
 
     void onCarRemove();
-
 }

@@ -1,9 +1,5 @@
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 
 public class CarController {
-
 
     void gas(int amount) {
         double gas = ((double) amount) / 100;
@@ -54,6 +50,7 @@ public class CarController {
             }
         }
     }
+
     void lowerBedButton() {
         for (Car car : Car.cars) {
             if (car instanceof Scania) {
@@ -73,9 +70,9 @@ public class CarController {
             car.stopEngine();
         }
     }
+
     void addCar() {
         new Saab95();
-
     }
 
     void removeCar() {

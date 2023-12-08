@@ -7,7 +7,6 @@ public class CarTransport extends Truck{
     private final int maxCapacity = 8;
     private final ArrayList<PassengerCar> loadedCars = new ArrayList<>();
 
-
     public CarTransport() {
             super(2, Color.blue, 200, "CarTransport");
     }

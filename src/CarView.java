@@ -3,7 +3,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.Key;
 
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
@@ -13,7 +12,7 @@ import java.security.Key;
  * TODO: Write more actionListeners and wire the rest of the buttons
  **/
 
-public class CarView extends JFrame{
+public class CarView extends JFrame {
     private static int X;
     private static int Y;
     private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -24,8 +23,6 @@ public class CarView extends JFrame{
 
     // The controller member
     CarController carC;
-
-    DrawPanel drawPanel;
 
     JPanel controlPanel = new JPanel();
 
@@ -80,19 +77,13 @@ public class CarView extends JFrame{
         @Override
 
         public void actionPerformed(ActionEvent e) {
-            if(action.equals(MOVE_RIGHT)) {
-                carC.turnRight();
+            switch (action) {
+                case MOVE_RIGHT -> carC.turnRight();
+                case MOVE_LEFT -> carC.turnLeft();
+                case GAS -> carC.gas(1);
+                case BRAKE -> carC.brake(1);
             }
-            else if (action.equals(MOVE_LEFT)){
-                carC.turnLeft();
-            }
-            else if(action.equals(GAS)) {
-                carC.gas(1);
-            }
-            else if(action.equals(BRAKE)) {
-                carC.brake(1);
-            }
-;            // Player can be detected by e.getSource() instead and call its own move method.
+            // Player can be detected by e.getSource() instead and call its own move method.
         }
     }
     // Sets everything in place and fits everything

@@ -1,27 +1,25 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public abstract class Car implements Movable{
+public abstract class Car implements Movable {
 
     protected int nrDoors; // Number of doors on the car
-    protected double enginePower; // Engine power of the car
 
-    protected double currentSpeed; // The current speed of the car
+    protected double enginePower; // Engine power of the car
 
     protected Color color; // Color of the car
 
     protected String modelName; // The car model name
 
+    protected double currentSpeed; // The current speed of the car
     protected double direction = 0;
-
-    public static final ArrayList<Car> cars = new ArrayList<>();
     private double positionX = 0;
     private double positionY = 0;
+
     private final double tenDegreesInRadians = (2 * Math.PI)/(36);
-    private final static ArrayList<CarObserver> observers = new ArrayList<>();
+
+    public static final ArrayList<Car> cars = new ArrayList<>();
+    private static final ArrayList<CarObserver> observers = new ArrayList<>();
 
     public Car(int nrDoors, Color color, double enginePower, String modelName) {
         this.nrDoors = nrDoors;
@@ -147,7 +145,6 @@ public abstract class Car implements Movable{
         else {
             System.out.print("Gas amount not within range [0,1]");
         }
-
     }
 
     public void brake(double amount){

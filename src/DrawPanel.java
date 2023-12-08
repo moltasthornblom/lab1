@@ -3,7 +3,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -79,16 +78,16 @@ public class DrawPanel extends JPanel implements CarObserver {
 
     @Override
     public void onCarMove() {
-        this.repaint();
+        repaint();
     }
 
     @Override
     public void onCarCreate() {
-        this.repaint();
+        repaint();
     }
 
     @Override
     public void onCarRemove() {
-        this.repaint();
+        repaint();
     }
 }
