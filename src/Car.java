@@ -35,6 +35,10 @@ public abstract class Car implements Movable {
         // For mutability/defensive coding purposes, return a new copy of arraylist instead of the reference
         return new ArrayList<>(cars);
     }
+
+    public static int getNrCars() {
+        return cars.size();
+    }
     public static void addObserver(CarObserver observer) {
         observers.add(observer);
     }

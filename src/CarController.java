@@ -74,7 +74,7 @@ public class CarController {
     }
 
     void addCar() {
-        if (Car.getCars().size() < 10) {
+        if (Car.getNrCars() < 10) {
             CarFactory.createSaab95();
         }
     }
