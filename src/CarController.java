@@ -1,34 +1,36 @@
 
 public class CarController {
 
+
+
     void gas(int amount) {
         double gas = ((double) amount) / 100;
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             car.gas(gas);
         }
     }
 
     public void turnRight() {
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             car.turnRight();
         }
     }
 
     public void turnLeft() {
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             car.turnLeft();
         }
     }
 
     void brake(int amount) {
         double gas = ((double) amount) / 100;
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             car.brake(gas);
         }
     }
 
     void turboOn() {
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             if (car instanceof Saab95) {
                 ((Saab95) car).setTurboOn();
             }
@@ -36,7 +38,7 @@ public class CarController {
     }
 
     void turboOff() {
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             if (car instanceof Saab95) {
                 ((Saab95) car).setTurboOff();
             }
@@ -44,7 +46,7 @@ public class CarController {
     }
 
     void liftBedButton() {
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             if (car instanceof Scania) {
                 ((Scania) car).alterFlatBedAngle(70);
             }
@@ -52,7 +54,7 @@ public class CarController {
     }
 
     void lowerBedButton() {
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             if (car instanceof Scania) {
                 ((Scania) car).alterFlatBedAngle(0);
             }
@@ -60,19 +62,21 @@ public class CarController {
     }
 
     void startEngine() {
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             car.startEngine();
         }
     }
 
     void stopEngine() {
-        for (Car car : Car.cars) {
+        for (Car car : Car.getCars()) {
             car.stopEngine();
         }
     }
 
     void addCar() {
-        new Saab95();
+        if (Car.getCars().size() < 10) {
+            CarFactory.createSaab95();
+        }
     }
 
     void removeCar() {

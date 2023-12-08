@@ -18,7 +18,7 @@ public abstract class Car implements Movable {
 
     private final double tenDegreesInRadians = (2 * Math.PI)/(36);
 
-    public static final ArrayList<Car> cars = new ArrayList<>();
+    private static final ArrayList<Car> cars = new ArrayList<>();
     private static final ArrayList<CarObserver> observers = new ArrayList<>();
 
     public Car(int nrDoors, Color color, double enginePower, String modelName) {
@@ -31,6 +31,10 @@ public abstract class Car implements Movable {
         stopEngine();
     }
 
+    public static ArrayList<Car> getCars() {
+        // For mutability/defensive coding purposes, return a new copy of arraylist instead of the reference
+        return new ArrayList<>(cars);
+    }
     public static void addObserver(CarObserver observer) {
         observers.add(observer);
     }
@@ -40,6 +44,12 @@ public abstract class Car implements Movable {
             notifyRemove();
         }
     }
+    private static void notifyRemove() {
+        for (CarObserver observer: observers) {
+            observer.onCarRemove();
+        }
+    }
+
     private void notifyCarMove() {
         for (CarObserver observer: observers) {
             observer.onCarMove();
@@ -48,11 +58,6 @@ public abstract class Car implements Movable {
     private void notifyCarCreate() {
         for (CarObserver observer: observers) {
             observer.onCarCreate();
-        }
-    }
-    private static void notifyRemove() {
-        for (CarObserver observer: observers) {
-            observer.onCarRemove();
         }
     }
 

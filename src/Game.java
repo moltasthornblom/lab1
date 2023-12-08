@@ -13,7 +13,7 @@ public class Game {
 
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            for (Car car : Car.cars) {
+            for (Car car : Car.getCars()) {
                 car.move();
             }
         }
@@ -26,9 +26,9 @@ public class Game {
 
         Car.addObserver(drawPanel);
 
-        new Saab95();
-        Volvo240 volvo = new Volvo240();
-        CarTransport carTransport = new CarTransport();
+        CarFactory.createSaab95();
+        Car volvo = CarFactory.createVolvo240();
+        Car carTransport = CarFactory.createCarTransport();
         volvo.setPositionY(40);
         carTransport.setPositionY(60);
 

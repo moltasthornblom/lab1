@@ -53,7 +53,7 @@ public class DrawPanel extends JPanel implements CarObserver {
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, 800, 560, null);
 
-        for(Car car: Car.cars) {
+        for(Car car: Car.getCars()) {
             BufferedImage img = imageMap.get(car.getModelName());
 
             if(triggerMapBounds(car.getPositionX(), car.getPositionY(), img.getWidth())) {
