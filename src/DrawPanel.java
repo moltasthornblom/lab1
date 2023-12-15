@@ -13,9 +13,13 @@ import javax.swing.*;
 public class DrawPanel extends JPanel implements CarObserver {
     Map<String, BufferedImage> imageMap = new HashMap<>();
     BufferedImage bgImage;
+    private final int X;
+    private final int Y;
 
     // Initializes the panel and reads the images
-    public DrawPanel(int x, int y) {
+    public DrawPanel(int X, int Y) {
+        this.X = X;
+        this.Y = Y;
         this.setDoubleBuffered(true);
         // Print an error message in case file is not found with a try/catch block
         try {
@@ -31,7 +35,7 @@ public class DrawPanel extends JPanel implements CarObserver {
 
             bgImage = ImageIO.read(DrawPanel.class.getResourceAsStream("pics/bilmatta.png"));
 
-            this.setPreferredSize(new Dimension(x, y));
+            this.setPreferredSize(new Dimension(X, Y));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -39,7 +43,7 @@ public class DrawPanel extends JPanel implements CarObserver {
     }
 
     private boolean triggerMapBounds(double carPosX, double carPosY, int carWidth) {
-        return carPosX > 800 - carWidth || carPosX < 0 || carPosY > 560 - carWidth || carPosY < 0;
+        return carPosX > X - carWidth || carPosX < 0 || carPosY > Y - carWidth || carPosY < 0;
     }
 
     private void safeBoundsRescue(Car car, int carWidth) {
@@ -51,9 +55,9 @@ public class DrawPanel extends JPanel implements CarObserver {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(bgImage, 0, 0, 800, 560, null);
+        g.drawImage(bgImage, 0, 0, X, Y, null);
 
-        for(Car car: Car.getCars()) {
+        for(Car car: CarFactory.getCars()) {
             BufferedImage img = imageMap.get(car.getModelName());
 
             if(triggerMapBounds(car.getPositionX(), car.getPositionY(), img.getWidth())) {

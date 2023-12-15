@@ -13,16 +13,16 @@ public class Game {
 
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            for (Car car : Car.getCars()) {
+            for (Car car : CarFactory.getCars()) {
                 car.move();
             }
         }
     }
 
     public Game(String title, int width, int height) {
-        CarC = new CarController();
         drawPanel =  new DrawPanel(width, height-240);
-        frame = new CarView(title, CarC, drawPanel, width, height);
+        frame = new CarView(title, drawPanel, width, height);
+        CarC = new CarController(frame);
 
         Car.addObserver(drawPanel);
 

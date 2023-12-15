@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
@@ -13,25 +12,14 @@ import java.awt.event.*;
  **/
 
 public class CarView extends JFrame {
-    private static int X;
-    private static int Y;
-    private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
-    private static final String GAS = "gas";
-    private static final String BRAKE = "brake";
-    private static final String MOVE_LEFT = "move left";
-    private static final String MOVE_RIGHT = "move right";
-
-    // The controller member
-    CarController carC;
+    private final int X;
+    private final int Y;
 
     JPanel controlPanel = new JPanel();
-
     JPanel gasPanel = new JPanel();
     JSpinner gasSpinner = new JSpinner();
-    int gasAmount = 0;
     JLabel gasLabel = new JLabel("Amount of gas");
 
-    static JLabel obj1 = new JLabel();
     JButton gasButton = new JButton("Gas");
     JButton brakeButton = new JButton("Brake");
     JButton turnLeftButton = new JButton("Turn Left");
@@ -48,43 +36,11 @@ public class CarView extends JFrame {
     JButton addCarButton = new JButton("Add car button");
     JButton removeCarButton = new JButton("Remove car button");
     // Constructor
-    public CarView(String framename, CarController cc, JPanel drawPanel, int X, int Y){
+    public CarView(String framename, JPanel drawPanel, int X, int Y){
         this.X = X;
         this.Y = Y;
-        this.carC = cc;
         initComponents(framename, drawPanel);
-        obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("RIGHT"), MOVE_RIGHT);
-        obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("LEFT"), MOVE_LEFT);
-        obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("UP"), GAS);
-        obj1.getInputMap(IFW).put(KeyStroke.getKeyStroke("DOWN"), BRAKE);
-        obj1.getActionMap().put(MOVE_LEFT, new MoveAction(MOVE_LEFT));
-        obj1.getActionMap().put(MOVE_RIGHT, new MoveAction(MOVE_RIGHT));
-        obj1.getActionMap().put(GAS, new MoveAction(GAS));
-        obj1.getActionMap().put( BRAKE, new MoveAction(BRAKE));
-        add(obj1);
-    }
 
-
-
-    private class MoveAction extends AbstractAction {
-
-        String action;
-
-        public MoveAction(String action) {
-            this.action = action;
-
-        }
-        @Override
-
-        public void actionPerformed(ActionEvent e) {
-            switch (action) {
-                case MOVE_RIGHT -> carC.turnRight();
-                case MOVE_LEFT -> carC.turnLeft();
-                case GAS -> carC.gas(1);
-                case BRAKE -> carC.brake(1);
-            }
-            // Player can be detected by e.getSource() instead and call its own move method.
-        }
     }
     // Sets everything in place and fits everything
     private void initComponents(String title, JPanel drawPanel) {
@@ -101,11 +57,6 @@ public class CarView extends JFrame {
                         1, //max
                         1);//step
         gasSpinner = new JSpinner(spinnerModel);
-        gasSpinner.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                gasAmount = (int) ((JSpinner)e.getSource()).getValue();
-            }
-        });
 
         gasPanel.setLayout(new BorderLayout());
         gasPanel.add(gasLabel, BorderLayout.PAGE_START);
@@ -141,90 +92,6 @@ public class CarView extends JFrame {
         stopButton.setPreferredSize(new Dimension(X/5-15,200));
         this.add(stopButton);
 
-        // This actionListener is for the gas button only
-        gasButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.gas(gasAmount);
-            }
-        });
-
-        brakeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.brake(gasAmount);
-            }
-        });
-
-        turnLeftButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turnLeft();
-            }
-        });
-        turnRightButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turnRight();
-            }
-        });
-
-        turboOnButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turboOn();
-            }
-        });
-
-        turboOffButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.turboOff();
-            }
-        });
-
-        liftBedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.liftBedButton();
-            }
-        });
-
-        lowerBedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.lowerBedButton();
-            }
-        });
-
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.startEngine();
-            }
-        });
-
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.stopEngine();
-            }
-        });
-        addCarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.addCar();
-            }
-        });
-
-        removeCarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                carC.removeCar();
-            }
-        });
-
-
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
 
@@ -236,5 +103,45 @@ public class CarView extends JFrame {
         this.setVisible(true);
         // Make sure the frame exits when "x" is pressed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void addGasSpinnerChangeListener(ChangeListener changeListener) {
+        gasSpinner.addChangeListener(changeListener);
+    }
+    public void addGasButtonActionListener(ActionListener actionListener) {
+        gasButton.addActionListener(actionListener);
+    }
+    public void addBrakeButtonActionListener(ActionListener actionListener) {
+        brakeButton.addActionListener(actionListener);
+    }
+    public void addTurnLeftButtonActionListener(ActionListener actionListener) {
+        turnLeftButton.addActionListener(actionListener);
+    }
+    public void addTurnRightButtonActionListener(ActionListener actionListener) {
+        turnRightButton.addActionListener(actionListener);
+    }
+    public void addTurboOffButtonActionListener(ActionListener actionListener) {
+        turboOffButton.addActionListener(actionListener);
+    }
+    public void addTurboOnButtonActionListener(ActionListener actionListener) {
+        turboOnButton.addActionListener(actionListener);
+    }
+    public void addLiftBedButtonActionListener(ActionListener actionListener) {
+        liftBedButton.addActionListener(actionListener);
+    }
+    public void addLowerBedButtonActionListener(ActionListener actionListener) {
+        lowerBedButton.addActionListener(actionListener);
+    }
+    public void addStartButtonActionListener(ActionListener actionListener) {
+        startButton.addActionListener(actionListener);
+    }
+    public void addStopButtonActionListener(ActionListener actionListener) {
+        stopButton.addActionListener(actionListener);
+    }
+    public void addAddCarButtonActionListener(ActionListener actionListener) {
+        addCarButton.addActionListener(actionListener);
+    }
+    public void addRemoveCarButtonActionListener(ActionListener actionListener) {
+        removeCarButton.addActionListener(actionListener);
     }
 }
